@@ -77,8 +77,6 @@ app.post('/auth/register', (req, res, next) => {
 
 app.post('/auth/login', (req, res, next) => {
   const { username, password } = req.body
-  console.log(username)
-  console.log(password)
   // check the credentials
   // generate a token token -> jwt.sign()
   // include the userId inside the token's payload
@@ -134,6 +132,18 @@ app.get('/movies', (req, res, next) => {
   Movie.find()
     .then(movies => res.send(movies))
     .catch(next)
+})
+
+app.get('/watchlist/:userId', (req, res, next) => {
+  // get the watchlist of a user
+  User.findById(req.params.userId)
+    .populate('watchlist')
+    .then(result => res.send(result))
+    .catch(next)
+})
+
+app.post('/watchlist', (req, res, next) => {
+  // add a movie to the watchlist
 })
 
 // Forward 404 to error handler
